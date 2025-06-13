@@ -1,0 +1,26 @@
+name: Pipeline CI
+run-name: CI Excution for ${{ github.actor }} em ${{ github.run_number }}
+on:
+    workflow_dispatch:
+    pull_request:
+        branches:
+            - main
+            - develop
+            - staging
+jobs:
+    build:
+        name: Build and Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: '8.0.300'
+
+            - name: Build
+              working-directory: ./src
+              run: |
+                dotnet build Review-Filmes.sln
